@@ -2,23 +2,42 @@ import 'package:tldextract/tldextract.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Test all case', () {
-    // final awesome = Awesome();
+  String mainEmail = 'abc@tisoha.vn';
+  List<String> matchedDomains = [
+    'giao@ketoan.tisoha.vn',
+    'av@tisoha.vn',
+  ];
 
-    String first = 'desmond.lim@tnt-design.com.sg';
-    String second = 'desmond.lim@tnt-design.com';
-    String third = 'desmond.lim@abc.com.sg';
+  List<String> notMatchedDomains = [
+    'giao@ketoan.tisoha',
+    'giao@ketoan.com',
+  ];
 
-    setUp(() {
-      // Additional setup goes here.
-    });
+  group('Test local domain case', () {
+    setUp(() {});
 
     test('Test not matched', () {
-      expect(isMatchedDomain(first: first, rests: [second]), isFalse);
+      expect(
+          isMatchedDomain(first: mainEmail, rests: notMatchedDomains), isFalse);
     });
 
     test('Test matched', () {
-      expect(isMatchedDomain(first: first, rests: [third]), isTrue);
+      expect(isMatchedDomain(first: mainEmail, rests: matchedDomains), isTrue);
+    });
+  });
+
+  group('Test top level domain only', () {
+    setUp(() {});
+
+    test('Test not matched', () {
+      expect(
+          isMatchedTopLevelDomain(first: mainEmail, rests: notMatchedDomains),
+          isFalse);
+    });
+
+    test('Test matched', () {
+      expect(isMatchedTopLevelDomain(first: mainEmail, rests: matchedDomains),
+          isTrue);
     });
   });
 }
